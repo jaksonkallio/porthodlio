@@ -104,6 +104,14 @@ public class CoinDatabase {
 		selected_coin.setRank(rank);
 	}
 
+	public static Coin getCoin(int list_position){
+		return coins.get(list_position);
+	}
+
+	public static int getCoinCount(){
+		return coins.size();
+	}
+
 	private static int last_update_time = 0;
 	public final static int UPDATE_INTERVAL = 15;
 	private static ArrayList<Coin> coins = new ArrayList<>();
