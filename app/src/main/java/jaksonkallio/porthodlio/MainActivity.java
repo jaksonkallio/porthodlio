@@ -1,5 +1,6 @@
 package jaksonkallio.porthodlio;
 
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
@@ -9,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Market.OnFragmentInteractionListener, Holdings.OnFragmentInteractionListener, Addresses.OnFragmentInteractionListener {
 
 	private TextView mTextMessage;
 
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
 	private void switchFragment(int fragment_layout){
 		if(current_fragment != null) {
-			getSupportFragmentManager().beginTransaction().replace(fragment_layout, current_fragment).commit();
+			getSupportFragmentManager().beginTransaction().replace(R.id.subpage, current_fragment).commit();
 		}
 	}
 
@@ -50,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
 		mTextMessage = (TextView) findViewById(R.id.message);
 		BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 		navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+	}
+
+	public void onFragmentInteraction(Uri uri){
+		// Do stuff
 	}
 
 	private Fragment current_fragment;
