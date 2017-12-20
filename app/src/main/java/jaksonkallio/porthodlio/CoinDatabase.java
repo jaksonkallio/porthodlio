@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -27,6 +28,10 @@ public class CoinDatabase {
 
 	public static int getLastUpdateTime(){
 		return last_update_time;
+	}
+
+	public static int loadCoinCache(){
+		
 	}
 
 	private static void setLastUpdateTime(int new_time){
@@ -74,6 +79,37 @@ public class CoinDatabase {
 
 	public static int getCoinCount(){
 		return coins.size();
+	}
+
+	private static void cacheCoinData(){
+		JSONArray coin_list = new JSONArray();
+
+		try {
+			for(Coin coin : coins){
+				JSONObject coin_entry = new JSONObject();
+
+				coin_entry.put("name", coin.getName());
+				coin_entry.put("ticker", coin.getTicker());
+				coin_entry.put("change_24h", coin.getPercentChange(Coin.ChangeInterval.DAY));
+				coin_entry.put("price", coin.getPrice());
+				coin_entry.put("rank", coin.getRank());
+				coin_entry.put("day_volume", coin.getDayVolume());
+				coin_entry.put("market_cap", coin.getMarketCap());
+
+				coin_list.put(coin_entry);
+			}
+		} catch (JSONException e) {
+			System.out.println("JSON construction error: "+e.getMessage());
+		}
+
+		try {
+			FileWriter file = new FileWriter("/data/data/" + MainActivity.PACKAGE_NAME + "/coins.json");
+			file.write(coin_list.toString());
+			file.flush();
+			file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private static int last_update_time = 0;
@@ -130,6 +166,8 @@ public class CoinDatabase {
 							updateCoin(ticker, name, price, market_cap, volume, percent_change_24h, rank);
 						}
 					}
+
+					cacheCoinData();
 				} catch (JSONException e) {
 					System.out.println("Bad JSON: " + e.getMessage());
 				}
