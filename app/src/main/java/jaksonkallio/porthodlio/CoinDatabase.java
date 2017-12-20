@@ -7,6 +7,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,8 +33,37 @@ public class CoinDatabase {
 		return last_update_time;
 	}
 
-	public static int loadCoinCache(){
-		
+	public static void loadCoinCache(){
+		File file = new File("/data/data/" + MainActivity.PACKAGE_NAME + "/coins.json");
+		BufferedReader reader = null;
+		String coin_list_json = "";
+
+		try {
+			reader = new BufferedReader(new FileReader(file));
+			String text;
+
+			while ((text = reader.readLine()) != null) {
+				coin_list_json += text;
+			}
+
+			JSONArray coin_list = new JSONArray(coin_list_json);
+
+			for(int i = 0; i < coin_list.length(); i++){
+				if(coin_list.get(i) instanceof JSONObject){
+					JSONObject coin_json = (JSONObject) coin_list.get(i);
+					updateCoin(coin_json.getString("ticker"), coin_json.getString("name"), coin_json.getDouble("price"), coin_json.getLong("market_cap"), coin_json.getLong("day_volume"), coin_json.getDouble("percent_change_24h"), coin_json.getInt("rank"));
+				}
+			}
+
+		} catch (FileNotFoundException ex) {
+			System.out.println("File not found.");
+		} catch (IOException ex) {
+			System.out.println("Bad IO.");
+		} catch (JSONException ex) {
+			System.out.println("Malformed JSON.");
+		}
+
+		updatePrices();
 	}
 
 	private static void setLastUpdateTime(int new_time){
@@ -90,7 +122,7 @@ public class CoinDatabase {
 
 				coin_entry.put("name", coin.getName());
 				coin_entry.put("ticker", coin.getTicker());
-				coin_entry.put("change_24h", coin.getPercentChange(Coin.ChangeInterval.DAY));
+				coin_entry.put("percent_change_24h", coin.getPercentChange(Coin.ChangeInterval.DAY));
 				coin_entry.put("price", coin.getPrice());
 				coin_entry.put("rank", coin.getRank());
 				coin_entry.put("day_volume", coin.getDayVolume());

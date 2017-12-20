@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements Market.OnFragment
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		PACKAGE_NAME = getApplicationContext().getPackageName();
+		CoinDatabase.loadCoinCache();
 		mTextMessage = (TextView) findViewById(R.id.message);
 		BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 		navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
