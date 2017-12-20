@@ -1,5 +1,6 @@
 package jaksonkallio.porthodlio;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 /**
@@ -9,6 +10,17 @@ import java.util.ArrayList;
 public class DisplayPreferences {
 	public static double trimDecimal(double number){
 		return ((int) (number * 100.00)) / 100.00;
+	}
+
+	public static double formatPercent(double percent){
+		percent = percent * Math.pow(10, percent_decimal_places); // Move decimal place right to protect which ones we want
+		percent = (int) percent; // Cast to int to truncate all decimals
+		percent = percent / Math.pow(10, percent_decimal_places); // Move decimal place left to bring back decimals.
+		return percent;
+	}
+
+	public static String formatNumber(double number){
+		return NumberFormat.getInstance().format(number);
 	}
 
 	public static String bigNumberShorten(long number){
@@ -29,4 +41,6 @@ public class DisplayPreferences {
 
 		return construct;
 	}
+
+	private static int percent_decimal_places = 2; // Digits after the decimal to keep
 }

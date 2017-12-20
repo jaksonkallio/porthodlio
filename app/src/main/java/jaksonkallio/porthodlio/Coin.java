@@ -79,6 +79,19 @@ public class Coin {
 		}
 	}
 
+	public double getPercentChange(ChangeInterval interval){
+		switch(interval){
+			case HOUR:
+				return change_1h;
+			case DAY:
+				return change_24h;
+			case MONTH:
+				return change_30d;
+		}
+
+		return 0;
+	}
+
 	public void setRank(int rank){
 		this.rank = rank;
 	}
