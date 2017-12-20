@@ -36,10 +36,6 @@ public class Coin {
 		return price;
 	}
 
-	public String getPriceFormatted(){
-		return "$"+DisplayPreferences.trimDecimal(price);
-	}
-
 	public String getTicker(){
 		return ticker.toLowerCase();
 	}

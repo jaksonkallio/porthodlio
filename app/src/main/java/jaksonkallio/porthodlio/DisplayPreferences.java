@@ -8,16 +8,29 @@ import java.util.ArrayList;
  * @author Jakson Kallio
  */
 public class DisplayPreferences {
-	public static double trimDecimal(double number){
+	/*public static double trimDecimal(double number){
 		return ((int) (number * 100.00)) / 100.00;
-	}
+	}*/
 
 	public static double formatPercent(double percent){
-		percent = percent * Math.pow(10, percent_decimal_places); // Move decimal place right to protect which ones we want
-		percent = (int) percent; // Cast to int to truncate all decimals
-		percent = percent / Math.pow(10, percent_decimal_places); // Move decimal place left to bring back decimals.
-		return percent;
+		return trimDecimal(percent, percent_decimal_places);
 	}
+
+	public static String formatPrice(double price){
+		return "$"+formatNumber(trimDecimal(price, decimal_places_price_fiat));
+	}
+
+	private static double trimDecimal(double number, int places){
+		number = number * Math.pow(10, places); // Move decimal place right to protect which ones we want
+		number = (int) number; // Cast to int to truncate all decimals
+		number = number / Math.pow(10, places); // Move decimal place left to bring back decimals.
+		return number;
+	}
+
+	private static double trimDecimal(double number){
+		return trimDecimal(number, 2);
+	}
+
 
 	public static String formatNumber(double number){
 		return NumberFormat.getInstance().format(number);
@@ -43,4 +56,6 @@ public class DisplayPreferences {
 	}
 
 	private static int percent_decimal_places = 2; // Digits after the decimal to keep
+	private static int decimal_places_price_fiat = 2;
+	private static int decimal_places_price_crypto = 3;
 }

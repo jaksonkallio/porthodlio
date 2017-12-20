@@ -41,25 +41,27 @@ public class MarketListAdapter extends BaseAdapter {
 		TextView coin_price = (TextView) construct.findViewById(R.id.price);
 		TextView coin_price_change = (TextView) construct.findViewById(R.id.price_change);
 		TextView coin_rank = (TextView) construct.findViewById(R.id.rank);
+		TextView coin_market_cap = (TextView) construct.findViewById(R.id.market_cap);
 
 		Coin this_coin = (Coin) getItem(position);
 
 		coin_name.setText(this_coin.getName());
-		coin_price.setText(this_coin.getPriceFormatted());
+		coin_price.setText(DisplayPreferences.formatPrice(this_coin.getPrice()));
 
-		String price_formatted = "";
+		String price_change_formatted = "";
 		if(this_coin.getPercentChange(Coin.ChangeInterval.DAY) >= 0){
 			coin_price_change.setTextColor(construct.getResources().getColor(R.color.market_up));
-			price_formatted += "+ ";
+			price_change_formatted += "+ ";
 		}else{
 			coin_price_change.setTextColor(construct.getResources().getColor(R.color.market_down));
-			price_formatted += "- ";
+			price_change_formatted += "- ";
 		}
 
-		price_formatted += Math.abs(DisplayPreferences.formatPercent(this_coin.getPercentChange(Coin.ChangeInterval.DAY))) + "%";
+		price_change_formatted += Math.abs(DisplayPreferences.formatPercent(this_coin.getPercentChange(Coin.ChangeInterval.DAY))) + "%";
 
-		coin_price_change.setText(price_formatted);
-		coin_rank.setText(this_coin.getRank()+"");
+		coin_price_change.setText(price_change_formatted);
+		coin_rank.setText("#"+this_coin.getRank());
+		coin_market_cap.setText("$"+DisplayPreferences.bigNumberShorten(this_coin.getMarketCap()));
 		return construct;
 	}
 
