@@ -21,15 +21,15 @@ public class MainActivity extends AppCompatActivity implements Market.OnFragment
 		public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 			switch (item.getItemId()) {
 				case R.id.navigation_market:
-					current_fragment = new Market();
+					current_fragment = market;
 					switchFragment(R.id.navigation_market);
 					return true;
 				case R.id.navigation_holdings:
-					current_fragment = new Holdings();
+					current_fragment = holdings;
 					switchFragment(R.id.navigation_holdings);
 					return true;
 				case R.id.navigation_addresses:
-					current_fragment = new Addresses();
+					current_fragment = addresses;
 					switchFragment(R.id.navigation_addresses);
 					return true;
 			}
@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements Market.OnFragment
 		setContentView(R.layout.activity_main);
 		PACKAGE_NAME = getApplicationContext().getPackageName();
 		CoinDatabase.loadCoinCache();
+		current_fragment = market;
+		switchFragment(R.id.navigation_market);
 		mTextMessage = (TextView) findViewById(R.id.message);
 		BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 		navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -60,4 +62,7 @@ public class MainActivity extends AppCompatActivity implements Market.OnFragment
 
 	private Fragment current_fragment;
 	public static String PACKAGE_NAME;
+	private Fragment market = new Market();
+	private Fragment holdings = new Holdings();
+	private Fragment addresses = new Addresses();
 }
