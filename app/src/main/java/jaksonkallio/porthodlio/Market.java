@@ -1,6 +1,7 @@
 package jaksonkallio.porthodlio;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -63,7 +64,13 @@ public class Market extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> a, View v, int position, long id) {
 				Object o = market_list_view.getItemAtPosition(position);
-				String coin_name = ((Coin) o).getName();
+				if(o instanceof Coin) {
+					Coin coin = (Coin) o;
+					String ticker = coin.getTicker();
+					Intent intent = new Intent(getActivity(), ModifyHoldingAmount.class);
+					intent.putExtra("ticker", ticker);
+					startActivity(intent);
+				}
 			}
 		});
 
