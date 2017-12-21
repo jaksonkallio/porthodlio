@@ -11,8 +11,10 @@ public class ModifyHoldingAmount extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_modify_holding_amount);
+
 		setTitle("Modify Holding Amount");
 		coin = CoinDatabase.getCoin(getIntent().getExtras().getString("ticker"));
+
 		TextView name = (TextView) findViewById(R.id.name);
 		TextView ticker = (TextView) findViewById(R.id.ticker);
 		TextView price = (TextView) findViewById(R.id.price);
