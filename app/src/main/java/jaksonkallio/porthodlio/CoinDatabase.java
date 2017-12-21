@@ -109,6 +109,16 @@ public class CoinDatabase {
 		return coins.get(list_position);
 	}
 
+	public static Coin getCoin(String search_ticker){
+		for(Coin coin : coins){
+			if(coin.getTicker().equals(search_ticker)) {
+				return coin;
+			}
+		}
+
+		return null;
+	}
+
 	public static int getCoinCount(){
 		return coins.size();
 	}
