@@ -2,6 +2,7 @@ package jaksonkallio.porthodlio;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -23,6 +24,12 @@ public class ModifyHoldingAmount extends AppCompatActivity {
 		name.setText(coin.getName());
 		ticker.setText(coin.getTicker());
 		price.setText(DisplayPreferences.formatPrice(coin.getPrice()));
+	}
+
+	public void enactAmountChange(View view){
+		EditText amount_field = (EditText) findViewById(R.id.amount);
+		double amount = Double.parseDouble(amount_field.getText().toString());
+		
 	}
 
 	private Coin coin;

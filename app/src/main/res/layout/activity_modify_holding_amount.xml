@@ -45,6 +45,7 @@
         android:text="@string/modify_button"
         android:gravity="center_horizontal"
         android:layout_below="@id/amount"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"
+        android:onClick="enactAmountChange"/>
 
 </RelativeLayout>
