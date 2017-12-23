@@ -29,7 +29,7 @@ public class ModifyHoldingAmount extends AppCompatActivity {
 	public void enactAmountChange(View view){
 		EditText amount_field = (EditText) findViewById(R.id.amount);
 		double amount = Double.parseDouble(amount_field.getText().toString());
-		
+
 	}
 
 	private Coin coin;
