@@ -1,10 +1,12 @@
 package jaksonkallio.porthodlio;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,54 +14,22 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Market.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Market#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class Market extends Fragment {
+public class Market extends FragmentActivity {
 
 	private OnFragmentInteractionListener mListener;
 
-	public Market() {
-
-	}
-
-	/**
-	 * Use this factory method to create a new instance of
-	 * this fragment using the provided parameters.
-	 *
-	 * @param param1 Parameter 1.
-	 * @param param2 Parameter 2.
-	 * @return A new instance of fragment Market.
-	 */
-	// TODO: Rename and change types and number of parameters
-	public static Market newInstance(String param1, String param2) {
-		Market fragment = new Market();
-		Bundle args = new Bundle();
-		fragment.setArguments(args);
-		return fragment;
+	public Market(Profile profile){
+		this.profile = profile;
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
-		View root_view = inflater.inflate(R.layout.fragment_market, container, false);
+		final Activity context = this;
 		CoinDatabase.updatePrices();
-		final ListView market_list_view = (ListView) root_view.findViewById(R.id.market_list);
-		market_list_view.setAdapter(new MarketListAdapter(getActivity()));
 
+		final ListView market_list_view = (ListView) findViewById(R.id.market_list);
+		market_list_view.setAdapter(new MarketListAdapter(context));
 		market_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> a, View v, int position, long id) {
@@ -67,14 +37,12 @@ public class Market extends Fragment {
 				if(o instanceof Coin) {
 					Coin coin = (Coin) o;
 					String ticker = coin.getTicker();
-					Intent intent = new Intent(getActivity(), ModifyHoldingAmount.class);
+					Intent intent = new Intent(context, ModifyHoldingAmount.class);
 					intent.putExtra("ticker", ticker);
 					startActivity(intent);
 				}
 			}
 		});
-
-		return root_view;
 	}
 
 	public void onButtonPressed(Uri uri) {
@@ -83,24 +51,9 @@ public class Market extends Fragment {
 		}
 	}
 
-	@Override
-	public void onAttach(Context context) {
-		super.onAttach(context);
-		if (context instanceof OnFragmentInteractionListener) {
-			mListener = (OnFragmentInteractionListener) context;
-		} else {
-			throw new RuntimeException(context.toString()
-					+ " must implement OnFragmentInteractionListener");
-		}
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		mListener = null;
-	}
-
 	public interface OnFragmentInteractionListener {
 		void onFragmentInteraction(Uri uri);
 	}
+
+	private final Profile profile;
 }

@@ -2,6 +2,7 @@ package jaksonkallio.porthodlio;
 
 import android.net.Uri;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements Market.OnFragment
 		setContentView(R.layout.activity_main);
 		PACKAGE_NAME = getApplicationContext().getPackageName();
 		CoinDatabase.loadCoinCache();
+		profile.addHolding(new Holding(CoinDatabase.getCoin("BTC"), 2.05));
+		profile.addHolding(new Holding(CoinDatabase.getCoin("ETH"), 4.34));
 		current_fragment = market;
 		switchFragment(R.id.navigation_market);
 		mTextMessage = (TextView) findViewById(R.id.message);
@@ -60,9 +63,10 @@ public class MainActivity extends AppCompatActivity implements Market.OnFragment
 		// Do stuff
 	}
 
-	private Fragment current_fragment;
+	private FragmentActivity current_fragment;
 	public static String PACKAGE_NAME;
-	private Fragment market = new Market();
-	private Fragment holdings = new Holdings();
-	private Fragment addresses = new Addresses();
+	private Profile profile = new Profile();
+	private FragmentActivity market = new Market(profile);
+	private FragmentActivity holdings = new Holdings();
+	private FragmentActivity addresses = new Addresses();
 }
